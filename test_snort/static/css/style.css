@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+#snortLogTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#snortLogTable th, #snortLogTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#snortLogTable th {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#snortLogTable tr:hover {
+    background-color: #f5f5f5;
+}
+
+#snortLogTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.xss-alert {
+    background-color: #fff0f0 !important;
+}
+
+.xss-alert td {
+    color: #d32f2f;
+}
+
+.attack-details {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.syn-alert {
+            color: red;
+            font-weight: bold;
+        }
+        .attack-details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .modalContainer {
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.highlight {
+           color: red;
+}
+

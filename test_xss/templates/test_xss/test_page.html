@@ -1,0 +1,28 @@
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>XSS Test Page</h2>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" action="{% url 'test_xss:test_page' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="userInput">Enter your message:</label>
+                    <input type="text" class="form-control" id="userInput" name="userInput">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+            
+            {% if user_input %}
+            <div class="mt-4">
+                <h4>Your input:</h4>
+                <div class="user-content">
+                    {{ user_input|safe }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

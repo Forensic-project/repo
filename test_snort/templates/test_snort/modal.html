@@ -1,0 +1,48 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{% static 'css/modal.css' %}">  
+  
+    <title>SYN Flooding Scan </title>
+
+</head>
+<body>
+
+    <div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="imgBox">
+            <img class="warnImg" src="{% static 'img/warning.svg' %}">
+            <h2>&nbsp;&nbsp;ICMP Flooding이 탐지되었습니다</h2>
+        </div>
+<div class="ipBox">공격 IP |  192.168.209.1 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;피해 IP |  192.168.209.129</div><br/>
+        <section>
+            <div>
+                ICMP Flooding은 네트워크나 장비에 과도한 ICMP 요청(ping)을 전송하여<br/> 
+                서비스 과부하를 유발하는 <b>DoS(Denial of Service) 공격</b>의 일종입니다.
+                <button id="moreButton">더보기</button>
+            </div>
+            <br/>
+            <div id="additionalInfo" style="display: none;">
+                이 공격은 ICMP 프로토콜의 요청-응답 구조를 이용하여,<br/>
+                대량의 ICMP Echo Request 패킷을 타겟 시스템에 보내는 방식으로 진행됩니다.<br/>
+                타겟 시스템은 공격자의 과도한 요청에 응답하기 위해 자원을 소모하게 되며,<br/>
+                이는 시스템 성능 저하를 유발해 네트워크 지연이나 서비스 중단으로 이어질 수 있습니다.</div>
+                <div><b>CVSS 점수(Common Vulnerability Scoring System):&nbsp;</b> <span class="levelColor">7.5 high</span></div>
+                <br/>
+		<div><b>관련 CVE 바로가기:&nbsp;</b>
+                    <a target="_blank" href="https://nvd.nist.gov/vuln/detail/CVE-2018-18442">
+<img class="linkImg" src="{% static 'img/Vector.svg' %}">
+
+CVE-2018-18442</a>
+                </div>
+        </section>
+    </div>
+</div>
+    <script src="{% static 'js/modal.js' %}"></script>
+</body>
+</html>
