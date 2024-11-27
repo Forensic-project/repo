@@ -1,0 +1,116 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">  <!-- UTF-8 인코딩 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snort Log Viewer</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>.highlight {
+    color: red; /* 행의 텍스트 색상을 빨간색으로 설정 */
+}</style>
+</head>
+<body>
+    <h1>Snort Log Viewer</h1>
+    <table id="snortLogTable" class="display">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Signature ID</th>
+                <th>Classification</th>
+                <th>Src IP</th>
+                <th>Dest IP</th>
+                <th>Src Port</th>
+                <th>Dest Port</th>
+                
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr class="{% if event.is_xss %}highlight{% endif %}">
+                <td>{{ event.event_time }}</td>
+                <td>{{ event.sig_id }}</td>
+                <td>{{ event.classification }}</td>
+                <td>{{ event.ip_source }}</td>
+                <td>{{ event.ip_destination }}</td>
+                <td>{{ event.src_port }}</td>
+                <td>{{ event.dest_port }}</td>
+                
+                <td>
+                    {% if event.is_xss %}
+                        <span class="syn-alert" style="cursor: pointer; background-color: yellow; font-weight:bold">!! ICMP Flooding !!</span>
+
+{% include './modal.html' %}
+		    {% else  %}
+			<div class="attack-details">{{ event.msg }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // DataTable 초기화
+            $('#snortLogTable').DataTable({
+            paging: false,        // 페이지네이션 비활성화
+            ordering: false,      // 정렬 기능 비활성화
+            info: false,          // 하단 정보 표시 비활성화
+            searching: false      // 검색 기능 비활성화
+        });
+
+            // classification에 대한 설명 정의
+	const classificationDescriptions = {
+   	 1: "Traffic Normal.",
+   	 2: "Information Gathering Activity Detected.",
+    	 3: "Vulnerability Scanning Detected.",
+   	 4: "Denial of Service Attack Detected.",
+   	 5: "Unauthorized Network Access Attempt.",
+    	 6: "Anomalous Traffic Pattern Detected.",
+    	 7: "Malicious Software Detected.",
+    	 8: "Cross-Site Scripting Attack Detected.",
+    	 9: "SQL Injection Attack Detected.",
+    	 10: "Unauthorized Access Attempt to Network.",
+   	 11: "Access to Malicious Website Detected.",
+    	 12: "Parameter Tampering Detected.",
+   	 13: "Unauthorized Port Scan Detected.",
+   	 14: "Packet Sniffing Detected.",
+   	 15: "Fraudulent Email Received.",
+   	 16: "File Upload Vulnerability Detected.",
+   	 17: "Command Injection Attack Detected.",
+   	 18: "Session Hijacking Detected.",
+   	 19: "Service Continuous Attack Detected.",
+   	 20: "Malicious Code in Email Detected.",
+   	 21: "DNS Spoofing Detected.",
+   	 22: "Application Vulnerability Detected.",
+   	 23: "Server Load Attack Detected.",
+   	 24: "Anomalous Packet Transmission Detected.",
+   	 25: "Unauthorized File Transfer Detected.",
+    	 26: "Social Engineering Attack Detected.",
+     	 27: "Remote Code Execution Attack Detected.",
+   	 28: "Brute Force Attack Detected.",
+   	 29: "Unauthorized Service Usage Attempt.",
+   	 30: "Hacking Tool Detected."
+};
+
+            // 각 행을 확인하고 설명 추가
+            $('#snortLogTable tbody tr').each(function() {
+                const classification = $(this).find('td:nth-child(3)').text().trim(); // 3번째 열의 classification 값 가져오기
+                const description = classificationDescriptions[classification]; // 해당 분류에 대한 설명 가져오기
+
+                if (description) {
+                    // 설명을 td에 추가
+                    $(this).find('td:last').append(`<div class="attack-details">${description}</div>`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

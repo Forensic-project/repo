@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>XSS Vulnerability Test</title>
+</head>
+<body>
+    <h1>XSS Vulnerability Test</h1>
+    
+    {% if is_xss %}
+    <div style="color: red; font-weight: bold;">
+        XSS Attack Detected! Potential security threat!
+    </div>
+    {% endif %}
+    
+    <form method="GET" action="{% url 'test_xss:test' %}">
+        GET Test: <input type="text" name="xss">
+        <input type="submit" value="GET Submit">
+    </form>
+    
+    <form method="POST" action="{% url 'test_xss:test' %}">
+        {% csrf_token %}
+        POST Test: <input type="text" name="xss_field">
+        <input type="submit" value="POST Submit">
+    </form>
+</body>
+</html>
